@@ -4,20 +4,19 @@ import { NewTodoForm } from "./components/NewTodoForm";
 import { TodoList } from "./components/TodoList";
 import { Todo } from "./types";
 
-
 export default function App() {
   const [todos, setTodos] = useState<Todo[]>(() => {
-    const saved = localStorage.getItem("ITEMS")
-     if(saved == null) return []
+    const saved = localStorage.getItem("ITEMS");
+    if (saved == null) return [];
 
     return JSON.parse(saved);
-    });
-    
+  });
+
   useEffect(() => {
     localStorage.setItem("ITEMS", JSON.stringify(todos));
   }, [todos]);
 
-  function addTodo(title: string): void{
+  function addTodo(title: string): void {
     setTodos((currentTodos: Todo[]) => {
       return [
         ...currentTodos,
@@ -25,9 +24,9 @@ export default function App() {
       ];
     });
   }
-  function toggleTodo(id: string, completed: boolean):void {
+  function toggleTodo(id: string, completed: boolean): void {
     setTodos(currentTodos => {
-      return currentTodos.map((todo) => {
+      return currentTodos.map(todo => {
         if (todo.id === id) {
           return { ...todo, completed };
         }
@@ -42,13 +41,17 @@ export default function App() {
     });
   }
 
-
-
   return (
-    <>
-      <NewTodoForm onSubmit={addTodo} />
-      <h1 className="">Todo List</h1>
-      <TodoList todos={todos} toggleTodo={toggleTodo} deleteTodo={deleteTodo}/>
-    </>
+    <div className="bg-gray-800 flex justify-center items-center min-h-screen">
+      <div className="rounded-lg p-6 m-4 w-96 h-96 flex flex-col justify-center items-center">
+        <NewTodoForm onSubmit={addTodo} />
+        <h1 className="">Todo List</h1>
+        <TodoList
+          todos={todos}
+          toggleTodo={toggleTodo}
+          deleteTodo={deleteTodo}
+        />
+      </div>
+    </div>
   );
 }

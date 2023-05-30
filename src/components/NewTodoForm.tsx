@@ -13,7 +13,7 @@ export function NewTodoForm({ onSubmit }: NewTodoFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="">
-      <div className="">
+      <div className="flex flex-col gap-2">
         <label htmlFor="item"> New Item</label>
         <input
           value={newItem}
