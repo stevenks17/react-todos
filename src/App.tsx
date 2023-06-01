@@ -5,6 +5,8 @@ import { TodoList } from "./components/TodoList";
 import { Todo } from "./types";
 
 export default function App() {
+  const [parentUnfold, setParentUnfold] = useState(false);
+  const [childUnfold, setChildUnfold] = useState(false);
   const [todos, setTodos] = useState<Todo[]>(() => {
     const saved = localStorage.getItem("ITEMS");
     if (saved == null) return [];
@@ -15,6 +17,15 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem("ITEMS", JSON.stringify(todos));
   }, [todos]);
+
+  useEffect(() => {
+    setParentUnfold(true);
+    setTimeout(() => setChildUnfold(true), 1000); // Assuming your unfold animation duration is 1s
+    return () => {
+      setParentUnfold(false);
+      setChildUnfold(false);
+    };
+  }, []);
 
   function addTodo(title: string): void {
     setTodos((currentTodos: Todo[]) => {
@@ -42,10 +53,18 @@ export default function App() {
   }
 
   return (
-    <div className="bg-gray-800 flex justify-center items-center min-h-screen">
-      <div className="rounded-lg p-6 m-4 w-96 h-96 flex flex-col justify-center items-center">
+    <div
+      className={`min-h-screen flex justify-center items-center bg-gray-900 ${
+        parentUnfold ? "animate-unfold-in" : "animate-unfold-out"
+      }`}
+    >
+      <div
+        className={`bg-gray-700 rounded-lg p-6 m-4 w-96 h-96 flex flex-col justify-center items-center ${
+          childUnfold ? "animate-blow-up" : "animate-unfold-out"
+        }`}
+      >
+        <h1 className="text">Todo List</h1>
         <NewTodoForm onSubmit={addTodo} />
-        <h1 className="">Todo List</h1>
         <TodoList
           todos={todos}
           toggleTodo={toggleTodo}

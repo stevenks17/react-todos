@@ -4,8 +4,8 @@ import { TodoListProps } from "../types";
 
 export function TodoList({ todos, toggleTodo, deleteTodo }: TodoListProps) {
   return (
-    <ul className="">
-      {todos.length === 0 && <li className="">No todos</li>}
+    <ul className="text">
+      {todos.length === 0 && <li className="text">No todos</li>}
       {todos.map(todo => {
         return (
           <TodoItem
